@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block stuff %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
+<script src="{{MEDIA_URL}}js/leaflet.js"></script>
+
+<div class="row">
+<div class="col-sm-4 col-xs-12">Description: {{ object.details }}</div>
+<div class="col-sm-4 col-xs-12">Status: {{ object.status }}</div>
+<div class="col-sm-4 col-xs-12">Date: {{ object.date }}</div>
+</div>
+
+<div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
+
+<script>
+  function create_marker(lat_string, lon_string, desc) {
+    var lat = parseFloat(lat_string);
+    var lon = parseFloat(lon_string);
+
+    var icon = new L.Icon({
+      iconUrl: '{{MEDIA_URL}}js/images/marker-icon.png',
+      shadowUrl: '{{MEDIA_URL}}js/images/marker-shadow.png'
+    });
+
+    var marker = L.marker([lat, lon], {icon: icon});
+    marker.addTo(map);
+  };
+
+  $(document).ready(function() {
+        map = L.map('map').setView([0, 0], 4);
+
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoibmVib2dlbyIsImEiOiJjajRvN2RraTYxdDgxMzJvNzdiNHZ2aHFwIn0.TneQlUn7VVs65h9auKZlKg'
+}).addTo(map);
+
+create_marker({{object.lat}},{{object.lon}});
+map.setView(new L.LatLng({{object.lat}},{{object.lon}}), 8);
+
+
+});
+
+</script>
+
+{% endblock %}

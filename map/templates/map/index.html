@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block stuff %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
+<script src="{{MEDIA_URL}}js/leaflet.js"></script>
+
+<a href="/add"><button>Add to map</button></a>
+
+<div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
+
+<script>
+  function create_marker(id, lat_string, lon_string, desc) {
+    var lat = parseFloat(lat_string);
+    var lon = parseFloat(lon_string);
+
+    var icon = new L.Icon({
+      iconUrl: '{{MEDIA_URL}}js/images/marker-icon.png',
+      shadowUrl: '{{MEDIA_URL}}js/images/marker-shadow.png'
+    });
+
+    var marker = L.marker([lat, lon], {icon: icon});
+    marker.bindPopup('<div class="map-popup"><a href="incident/'+id+'">desc</a></div>');
+    marker.addTo(map);
+  };
+
+  $(document).ready(function() {
+        map = L.map('map').setView([0, 0], 4);
+
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoibmVib2dlbyIsImEiOiJjajRvN2RraTYxdDgxMzJvNzdiNHZ2aHFwIn0.TneQlUn7VVs65h9auKZlKg'
+}).addTo(map);
+
+
+{% for incident in object_list %}
+create_marker({{incident.id}},{{incident.lat}},{{incident.lon}},"{{incident.details}}");
+{% endfor %}
+});
+
+</script>
+
+{% endblock %}
