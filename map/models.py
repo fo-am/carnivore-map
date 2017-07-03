@@ -20,6 +20,7 @@ class Incident(models.Model):
     lat = models.FloatField(default=0)
     lon = models.FloatField(default=0)
     date = models.DateTimeField()
+    user = models.ForeignKey(User, null=True, blank=True, default = None)
     def __unicode__(self):
         return str(self.lat)+", "+str(self.lon)
 

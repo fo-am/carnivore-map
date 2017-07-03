@@ -10,7 +10,7 @@ function setup_map() {
     return map;
 }
 
-function create_marker(map, media_url, id, lat_string, lon_string, desc) {
+function create_marker(map, id, lat_string, lon_string, desc) {
     var lat = parseFloat(lat_string);
     var lon = parseFloat(lon_string);
     var icon = new L.Icon({
@@ -23,3 +23,78 @@ function create_marker(map, media_url, id, lat_string, lon_string, desc) {
     }
     marker.addTo(map);
 };
+
+var clicked=false;
+var marker=false;
+var media_url=false;
+
+function do_draggable_marker(map) {
+    map.on('click',
+	   function (e) {
+	       if (!clicked) {
+		   clicked=true; 
+		   var pos = e.latlng;
+		   document.getElementById("id_lat").value = pos.lat; 
+		   document.getElementById("id_lon").value = pos.lng;		 
+
+		   var icon = new L.Icon({
+		       iconUrl: media_url+'js/images/marker-icon.png',
+		       shadowUrl: media_url+'js/images/marker-shadow.png'
+		   });		   
+		   marker = L.marker(pos, {draggable: true, icon: icon});
+		   marker.on('drag', function (e) {
+		       document.getElementById("id_lat").value = e.latlng.lat; 
+		       document.getElementById("id_lon").value = e.latlng.lng;		 
+		   });
+		   marker.on('click', L.DomEvent.stopPropagation);
+		   marker.addTo(map);
+               }
+	   });
+}
+
+
+function getLocationConstant() {
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onGeoSuccess,onGeoError);  
+    } else {
+        alert("Your browser or device doesn't support Geolocation");
+    }
+}
+
+// If we have a successful location update
+function onGeoSuccess(event) {
+    update_pos(event.coords.latitude,event.coords.longitude);
+}
+
+// If something has gone wrong with the geolocation request
+function onGeoError(event) {
+    //alert("Error code " + event.code + ". " + event.message);
+    var latLong;
+    $.getJSON("http://ipinfo.io", function(ipinfo){
+	console.log("Found location ["+ipinfo.loc+"] by ipinfo.io");
+	latLong = ipinfo.loc.split(",");
+	update_pos(latLong[0],latLong[1])
+    });
+}
+
+function update_pos(lat,lon) {
+    document.getElementById("id_lat").value = lat; 
+    document.getElementById("id_lon").value = lon;
+    map.setView(new L.LatLng(lat,lon), 8);
+    if (marker) {
+	var newLatLng = new L.LatLng(lat,lon);
+	marker.setLatLng(newLatLng); 
+    } else {
+	var icon = new L.Icon({
+	    iconUrl: media_url+'js/images/marker-icon.png',
+	    shadowUrl: media_url+'js/images/marker-shadow.png'
+	});		   
+	marker = L.marker(new L.LatLng(lat,lon), {draggable: true, icon: icon});
+	marker.on('drag', function (e) {
+	    document.getElementById("id_lat").value = e.latlng.lat; 
+	    document.getElementById("id_lon").value = e.latlng.lng;		 
+	});
+	marker.on('click', L.DomEvent.stopPropagation);
+	marker.addTo(map);
+    }
+}

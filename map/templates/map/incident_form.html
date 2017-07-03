@@ -1,9 +1,44 @@
 {% extends "base.html" %}
 {% block stuff %}
-<form id="incident_form" class="incident-form" method="post" action="/add/"
-      enctype="multipart/form-data">
-      {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" name="submit" value="Yes" />
+<link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
+<script src="{{MEDIA_URL}}js/leaflet.js"></script>
+
+<form id="incident_form" class="incident-form" method="post" action="/add/" enctype="multipart/form-data">
+  {% csrf_token %}
+  
+  <div class="form-group">
+    <input id="id_details" class="form-control" maxlength="4096" name="details" type="text" placeholder="Description">
+  </div>
+
+  <div class="row">
+    <div id="map" style="height:300px;"></div>
+  </div>
+
+  <div class="form-group">
+    <input id="id_lat" class="form-control" name="lat" step="any" type="number" placeholder="Latitude">
+    <input id="id_lon" class="form-control" name="lon" step="any" type="number" placeholder="Longitude">
+    <input type="button" class="btn btn-primary" value="Get current location" onclick="getLocationConstant()"/>
+  </div>
+  
+  <div class="form-group">
+    <input id="id_date" class="form-control" name="date" type="text" placeholder="When">
+  </div>
+
+  <div class="form-group">
+    <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+  </div>
 </form>
+
+<script>
+  $(document).ready(function() {
+    map = setup_map();
+    do_draggable_marker(map,"{{MEDIA_URL}}");
+    media_url="{{MEDIA_URL}}";
+  });
+
+  $( function() {
+    $( "#id_date" ).datepicker();
+  });
+</script>
+
 {% endblock %}

@@ -13,8 +13,9 @@
 
 <script>
   $(document).ready(function() {
+    media_url="{{MEDIA_URL}}";
     map=setup_map();
-    create_marker(map,"{{MEDIA_URL}}",{{object.id}},{{object.lat}},{{object.lon}});
+    create_marker(map,{{object.id}},{{object.lat}},{{object.lon}});
     map.setView(new L.LatLng({{object.lat}},{{object.lon}}), 8);
   });
 </script>

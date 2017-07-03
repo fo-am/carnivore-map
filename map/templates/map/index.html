@@ -3,17 +3,20 @@
 <link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
 <script src="{{MEDIA_URL}}js/leaflet.js"></script>
 
-<div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
+<div class="row">
+  <div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
+</div>
 
 <div class="row">
-<a href="/add"><button class="col-xs-12 col-sm-4 col-sm-offset-4"><h2>Add to map</h2></button></a>
+  <a href="/add"><button class="btn btn-primary col-xs-12 col-sm-4 col-sm-offset-4"><h2>Add to map</h2></button></a>
 </div>
 
 <script>
   $(document).ready(function() {
+    media_url="{{MEDIA_URL}}";
     map = setup_map();
     {% for incident in object_list %}
-    create_marker(map,"{{MEDIA_URL}}",{{incident.id}},{{incident.lat}},{{incident.lon}},"{{incident.details}}");
+    create_marker(map,{{incident.id}},{{incident.lat}},{{incident.lon}},"{{incident.details}}");
     {% endfor %}
   });
 </script>

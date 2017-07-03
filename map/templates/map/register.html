@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block stuff %}
+{% if registered %}
+<strong>Thank you for registering!</strong>
+<a href="/">Return to the homepage.</a><br />
+{% else %}
+<div class="row-fluid">
+<form id="user_form" class="register-form" method="post" action="/register/"
+      enctype="multipart/form-data">
+  {% csrf_token %}
+
+    <div class="form-group">
+      <input id="id_username" class="form-control" maxlength="30" name="username" type="text" placeholder="Username"> 
+      <span class="helptext">30 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+    </div>
+
+    <div class="form-group">
+      <input id="id_password" class="form-control" name="password" type="password" placeholder="Password">
+    </div>
+
+    <div class="form-group">
+      <input id="id_repeat_password" class="form-control" name="repeat_password" type="password" placeholder="Repeat password">
+    </div>
+
+  <p>
+    {% blocktrans %}
+    We are collecting information into people who contribute to
+    citizen science projects - this information is optional.
+    {% endblocktrans %}
+  </p>
+  <div class="form-group">
+    <label for="id_gender">{% trans "Gender" %}:</label>
+    <select class="form-control lang-select" id="id_gender" name="gender" type="number">
+      <option value="0" selected="selected">{% trans "Prefer not to say" %}</option>
+      <option value="1">{% trans "Male" %}</option>
+      <option value="2">{% trans "Female" %}</option>
+      <option value="3">{% trans "Other" %}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="id_age_range">{% trans "Age range" %}:</label>
+    <select class="form-control lang-select" id="id_age_range" name="age_range" type="number">
+      <option value="0" selected="selected">{% trans "Prefer not to say" %}</option>
+      <option value="1">{% trans "Younger than 10" %}</option>
+      <option value="2">{% trans "10 to 15" %}</option>
+      <option value="3">{% trans "16 to 35" %}</option>
+      <option value="4">{% trans "36 to 50" %}</option>
+      <option value="5">{% trans "Older than 50" %}</option>
+    </select>
+  </div>
+  <div class="form-group">
+  {% blocktrans %}
+  Are you happy for us to use your data for research purposes?
+  {% endblocktrans %}
+  </div>
+
+  <div class="form-group">
+    <input class="btn btn-primary" type="submit" name="submit" value="{% trans 'Yes' %}" />
+    <a href="/">
+      <button id="tutorial_2" class="btn">
+	{% trans "No thanks" %}
+      </button>
+    </a>
+  </div>
+</form>
+</div>
+{% endif %}
+{% endblock %}

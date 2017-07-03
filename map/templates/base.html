@@ -17,9 +17,21 @@
 
     <div class="container">
       <header>
-	<a href="/"><div class="row">
-	  <div class="col-xs-12 banner"><h1>Carnivore incident map</h1></div>
-	</div></a>
+	  <div class="row">
+	    
+	      <div class="col-xs-12 col-sm-6"><a href="/"><h1>Carnivore incident map</h1></a></div>
+	      
+            {% if user.is_authenticated %}
+	    <div class="col-xs-12 col-sm-2">
+	      <a href="/logout">{% trans "Logout" %}</a>
+	    </div>
+            {% else %}
+	    <div class="col-xs-12 col-sm-4">
+              <a href="/login">{% trans "Login" %}</a> | 
+              <a href="/register">{% trans "Register" %}</a>
+	    </div>
+            {% endif %}
+	  </div>
       </header>
       <section class="content">
         {% block stuff %}{% endblock %}
