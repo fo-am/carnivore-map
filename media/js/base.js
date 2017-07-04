@@ -1,6 +1,9 @@
 
 function setup_map() {
-    map = L.map('map').setView([0, 0], 4);
+    var centre_lat=0.417;
+    var centre_lon=37.781;
+    var initial_zoom=6;
+    map = L.map('map').setView([centre_lat, centre_lon], initial_zoom);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	maxZoom: 18,
@@ -19,7 +22,8 @@ function create_marker(map, id, lat_string, lon_string, desc) {
     });
     var marker = L.marker([lat, lon], {icon: icon});
     if (desc!=undefined) {
-	marker.bindPopup('<div class="map-popup"><a href="incident/'+id+'">'+desc+'</a></div>');
+	console.log('<div class="map-popup"><a href="/incident/'+id+'">'+desc+'</a></div>')
+	marker.bindPopup('<div class="map-popup"><a href="/incident/'+id+'">'+desc+'</a></div>');
     }
     marker.addTo(map);
 };

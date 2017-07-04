@@ -1,24 +1,29 @@
 {% extends "base.html" %}
+{% load escapenewline %}
 {% block stuff %}
 <link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
 <script src="{{MEDIA_URL}}js/leaflet.js"></script>
+
+<h2>Main map</h2>
 
 <div class="row">
   <div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
 </div>
 
 <div class="row">
-  <a href="/add"><button class="btn btn-primary col-xs-12 col-sm-4 col-sm-offset-4"><h2>Add to map</h2></button></a>
+  <a href="/add"><button class="btn btn-primary col-xs-12 col-sm-4 col-sm-offset-4"><h2>Report Incident</h2></button></a>
 </div>
 
 <script>
   $(document).ready(function() {
     media_url="{{MEDIA_URL}}";
     map = setup_map();
-    {% for incident in object_list %}
-    create_marker(map,{{incident.id}},{{incident.lat}},{{incident.lon}},"{{incident.details}}");
-    {% endfor %}
-  });
+    {% autoescape on %}
+      {% for incident in object_list %}
+      create_marker(map,{{incident.id}},{{incident.lat}},{{incident.lon}},"{% filter escapenewline %}{{incident.details}}{% endfilter %}");
+      {% endfor %}
+    {% endautoescape %}
+    });
 </script>
 
 {% endblock %}

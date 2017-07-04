@@ -18,12 +18,12 @@
     <div class="container">
       <header>
 	  <div class="row">
-	    
-	      <div class="col-xs-12 col-sm-6"><a href="/"><h1>Carnivore incident map</h1></a></div>
+	    <div class="col-xs-12 col-sm-6"><a href="/">Carnivore incidents</a></div>
 	      
             {% if user.is_authenticated %}
 	    <div class="col-xs-12 col-sm-2">
-	      <a href="/logout">{% trans "Logout" %}</a>
+              <a href="/user/{{user.id}}">{% trans "My page" %}</a> | 
+              <a href="/logout">{% trans "Register" %}</a>
 	    </div>
             {% else %}
 	    <div class="col-xs-12 col-sm-4">

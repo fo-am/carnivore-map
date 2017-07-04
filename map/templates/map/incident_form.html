@@ -2,16 +2,17 @@
 {% block stuff %}
 <link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
 <script src="{{MEDIA_URL}}js/leaflet.js"></script>
-
+<h2>Report Incident</h2>
 <form id="incident_form" class="incident-form" method="post" action="/add/" enctype="multipart/form-data">
   {% csrf_token %}
-  
+<!--   {{ form }} -->
+
   <div class="form-group">
-    <input id="id_details" class="form-control" maxlength="4096" name="details" type="text" placeholder="Description">
+    <textarea id="id_details" class="form-control" maxlength="4096" name="details" type="text" placeholder="Description"></textarea>
   </div>
 
   <div class="row">
-    <div id="map" style="height:300px;"></div>
+    <div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
   </div>
 
   <div class="form-group">
@@ -23,6 +24,9 @@
   <div class="form-group">
     <input id="id_date" class="form-control" name="date" type="text" placeholder="When">
   </div>
+
+  <input id="id_user" class="form-control" name="user" type="hidden" value="{{user.id}}">
+  <input id="id_status" class="form-control" name="status" type="hidden" value="0">
 
   <div class="form-group">
     <input class="btn btn-primary" type="submit" name="submit" value="Submit">

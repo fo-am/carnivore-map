@@ -26,11 +26,26 @@ class IncidentsView(generic.ListView):
 class IncidentView(generic.DetailView):
     model = Incident
     template_name = 'map/incident.html'
+    def get_context_data(self, **kwargs):
+        context = super(IncidentView,self).get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
 
 class IncidentForm(CreateView):
     model = Incident
     fields = "__all__"
     success_url="/"
+
+# Create your views here.
+class UserView(generic.ListView):
+    template_name = 'map/user.html'
+    def get_queryset(self):
+        return Incident.objects.filter(user=self.request.user)
+    def get_context_data(self, **kwargs):
+        context = super(UserView,self).get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+
 
 ## user stuff ######################################################
 
