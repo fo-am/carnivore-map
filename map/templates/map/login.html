@@ -11,12 +11,15 @@
   <div class="form-group">
     <input id="password" type="password" class="form-control" name="password" value="" size="12" placeholder="Password">
   </div>
-  <input type="submit" class="btn btn-primary" value="Login">
+  <div class="form-group">
+    <input type="submit" class="btn btn-primary" value="Login">
+    <a href="/register/">
+      <button class="btn" id="tutorial_2">
+	{% trans "Register" %}
+      </button>
+    </a>
+  </div>
+
 </form>
 
-<a href="/register/">
-  <button class="btn" id="tutorial_2">
-    {% trans "Register" %}
-  </button>
-</a>
 {% endblock %}
