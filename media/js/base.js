@@ -46,7 +46,10 @@ function do_draggable_marker(map) {
 
 		   var icon = new L.Icon({
 		       iconUrl: media_url+'js/images/lion-marker-og.png',
-		       shadowUrl: media_url+'js/images/marker-shadow.png'
+		       shadowUrl: media_url+'js/images/lion-shadow.png',
+		       shadowAnchor:   [0, 28],
+		       iconAnchor:   [16, 41],
+		       popupAnchor:   [0, -41]
 		   });		   
 		   marker = L.marker(pos, {draggable: true, icon: icon});
 		   marker.on('drag', function (e) {
@@ -93,8 +96,11 @@ function update_pos(lat,lon) {
 	marker.setLatLng(newLatLng); 
     } else {
 	var icon = new L.Icon({
-	    iconUrl: media_url+'js/images/marker-icon.png',
-	    shadowUrl: media_url+'js/images/marker-shadow.png'
+	    iconUrl: media_url+'js/images/lion-marker-og.png',
+	    shadowUrl: media_url+'js/images/lion-shadow.png',
+	    shadowAnchor:   [0, 28],
+	    iconAnchor:   [16, 41],
+	    popupAnchor:   [0, -4]
 	});		   
 	marker = L.marker(new L.LatLng(lat,lon), {draggable: true, icon: icon});
 	marker.on('drag', function (e) {
