@@ -1,17 +1,53 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load escapenewline %}
+
+{% block title %}
+INCIDENT MAPPER
+{% endblock %}
+
 {% block stuff %}
 <link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
 <script src="{{MEDIA_URL}}js/leaflet.js"></script>
-
-<h2>Main map</h2>
-
 <div class="row">
-  <div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
-</div>
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+    
+    A free, open source tool for recording incidents of livestock being
+    attached in Kenya. Reports are verified twice, by village heads and
+    researchers, before appearing on the map below.
 
-<div class="row">
-  <a href="/add"><button class="btn btn-primary col-xs-12 col-sm-4 col-sm-offset-4"><h2>Report Incident</h2></button></a>
+    <div id="map"></div>
+
+    <hr/>
+
+    <div class="row">      
+      {% if user.is_authenticated %}
+      <div class="row text-center">
+	<div class="col-xs-12 col-md-4">
+	  <a href="/add"><button class="btn">{% trans "Report Incident" %}</button></a>
+	</div>
+	<div class="col-xs-12 col-md-4">
+	  <a href="/user/{{user.id}}"><button class="btn">{% trans "My page" %}</button></a> 
+	</div>
+	<div class="col-xs-12 col-md-4">
+	  <a href="/logout"><button class="btn">{% trans "Logout" %}</button></a>
+	</div>
+      </div>
+      {% else %}
+      <div class="row text-center">
+	<div class="col-xs-12 col-md-4">
+	  <a href="/add"><button class="btn">{% trans "Report Incident" %}</button></a>
+	</div>
+	<div class="col-xs-12 col-md-4">
+	  <a href="/login"><button class="btn">{% trans "Login" %}</button></a> 
+	</div>
+	<div class="col-xs-12 col-md-4">
+	  <a href="/register"><button class="btn">{% trans "Register" %}</button></a>
+	</div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
 
 <script>

@@ -17,8 +17,11 @@ function create_marker(map, id, lat_string, lon_string, desc) {
     var lat = parseFloat(lat_string);
     var lon = parseFloat(lon_string);
     var icon = new L.Icon({
-	iconUrl: media_url+'js/images/marker-icon.png',
-	shadowUrl: media_url+'js/images/marker-shadow.png'
+	iconUrl: media_url+'js/images/lion-marker-og.png',
+	shadowUrl: media_url+'js/images/lion-shadow.png',
+	shadowAnchor:   [0, 28],
+	iconAnchor:   [16, 41],
+	popupAnchor:   [0, -41]
     });
     var marker = L.marker([lat, lon], {icon: icon});
     if (desc!=undefined) {
@@ -42,7 +45,7 @@ function do_draggable_marker(map) {
 		   document.getElementById("id_lon").value = pos.lng;		 
 
 		   var icon = new L.Icon({
-		       iconUrl: media_url+'js/images/marker-icon.png',
+		       iconUrl: media_url+'js/images/lion-marker-og.png',
 		       shadowUrl: media_url+'js/images/marker-shadow.png'
 		   });		   
 		   marker = L.marker(pos, {draggable: true, icon: icon});
@@ -102,3 +105,12 @@ function update_pos(lat,lon) {
 	marker.addTo(map);
     }
 }
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+

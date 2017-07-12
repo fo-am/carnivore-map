@@ -1,37 +1,52 @@
 {% extends "base.html" %}
+{% block title %}
+REPORT INCIDENT
+{% endblock %}
+
 {% block stuff %}
 <link rel="stylesheet" href="{{MEDIA_URL}}css/leaflet.css" />
 <script src="{{MEDIA_URL}}js/leaflet.js"></script>
-<h2>Report Incident</h2>
-<form id="incident_form" class="incident-form" method="post" action="/add/" enctype="multipart/form-data">
-  {% csrf_token %}
-<!--   {{ form }} -->
 
-  <div class="form-group">
-    <textarea id="id_details" class="form-control" maxlength="4096" name="details" type="text" placeholder="Description"></textarea>
-  </div>
+<div class="row">
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+    <form id="incident_form" class="incident-form" method="post" action="/add/" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!--   {{ form }} -->
+      <div id="map"></div>
 
-  <div class="row">
-    <div id="map" class="row-fluid col-sm-12" style="height:500px;"></div>
-  </div>
+      <div class="form-group text-center">
+	<input type="button" class="btn btn-primary" value="Get current date/time" onclick=""/>
+      </div>
+      <div class="form-group">
+	<input id="id_date" class="form-control" name="date" type="text" placeholder="Date">
+	<input id="id_time" class="form-control" name="time" type="text" placeholder="Time">
+      </div>
 
-  <div class="form-group">
-    <input id="id_lat" class="form-control" name="lat" step="any" type="number" placeholder="Latitude">
-    <input id="id_lon" class="form-control" name="lon" step="any" type="number" placeholder="Longitude">
-    <input type="button" class="btn btn-primary" value="Get current location" onclick="getLocationConstant()"/>
-  </div>
-  
-  <div class="form-group">
-    <input id="id_date" class="form-control" name="date" type="text" placeholder="When">
-  </div>
+      <div class="form-group text-center">
+	<input type="button" class="btn btn-primary" value="Get current location" onclick="getLocationConstant()"/>
+      </div>
+      <div class="form-group">
+	<input id="id_lat" class="form-control" name="lat" step="any" type="number" placeholder="Latitude">
+	<input id="id_lon" class="form-control" name="lon" step="any" type="number" placeholder="Longitude">
+      </div>
 
-  <input id="id_user" class="form-control" name="user" type="hidden" value="{{user.id}}">
-  <input id="id_status" class="form-control" name="status" type="hidden" value="0">
+      <div class="form-group text-center">
+	<input type="button" class="btn btn-primary" value="Add photo of incident">
+      </div>
 
-  <div class="form-group">
-    <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+      <div class="form-group">
+	<textarea id="id_details" class="form-control" maxlength="4096" name="details" type="text" placeholder="Description"></textarea>
+      </div>
+
+      <input id="id_user" class="form-control" name="user" type="hidden" value="{{user.id}}">
+      <input id="id_status" class="form-control" name="status" type="hidden" value="0">
+
+      <div class="form-group text-center">
+	<input class="btn btn-primary" type="submit" name="submit" value="Submit">
+      </div>
+    </form>
   </div>
-</form>
+</div>
 
 <script>
   $(document).ready(function() {

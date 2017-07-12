@@ -13,25 +13,34 @@
     <script src="{{ MEDIA_URL }}js/base.js"></script> 
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/bootstrap-theme.min.css">
- <!--   <link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css" /> -->
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css" />
 
     <div class="container">
       <header>
-	  <div class="row">
-	    <div class="col-xs-12 col-sm-8"><a href="/">Carnivore incidents map</a></div>
-	      
-            {% if user.is_authenticated %}
-	    <div class="col-xs-12 col-sm-4">
-              <a href="/user/{{user.id}}">{% trans "My page" %}</a> | 
-              <a href="/logout">{% trans "Logout" %}</a>
-	    </div>
-            {% else %}
-	    <div class="col-xs-12 col-sm-4">
-              <a href="/login">{% trans "Login" %}</a> | 
-              <a href="/register">{% trans "Register" %}</a>
-	    </div>
-            {% endif %}
+	<div id="mySidenav" class="menu">
+	  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	  <a href="/">Home</a>
+	  <hr/>
+	  <a href="/add">Report Incident</a>
+	  {% if user.is_authenticated %}
+	  <hr/>
+	  <a href="/user/{{user.id}}">My Reports</a>
+	  <hr/>
+	  <a href="/logout">Log out</a>
+	  {% else %}
+	  <hr/>
+	  <a href="/login">Log in</a>
+	  <hr/>
+	  <a href="/Register">Register</a>
+	  {% endif %}
+	</div>
+
+	<div class="row">
+	  <div class="col-xs-12 col-sm-8 col-sm-offset-2 h2">
+	    <span style="cursor:pointer" onclick="openNav()">&#9776;</span>
+	    <a href="/" style="color:#000;">{% block title %}{% endblock %}</a>
 	  </div>
+	</div>
       </header>
       <section class="content">
         {% block stuff %}{% endblock %}
